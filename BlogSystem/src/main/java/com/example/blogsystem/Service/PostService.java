@@ -1,7 +1,9 @@
 package com.example.blogsystem.Service;
 import com.example.blogsystem.Api.ApiException;
+import com.example.blogsystem.Model.Category;
 import com.example.blogsystem.Model.Post;
 import com.example.blogsystem.Model.User;
+import com.example.blogsystem.Repository.CategoryRepository;
 import com.example.blogsystem.Repository.PostRepository;
 import com.example.blogsystem.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,21 @@ public class PostService {
 
  final private PostRepository postRepository;
 final private UserRepository userRepository;
-
+final private CategoryRepository categoryRepository;
     public List<Post> getAllPost() {
         return postRepository.findAll();
     }
 
     public void addPost(Post post) {
+
+        User oleUser = userRepository.findUserById(post.getUserId());
+        if (oleUser ==null){
+            throw new ApiException("User not found");
+        }
+        Category oldCategory = categoryRepository.giveMeById(post.getCategoryId());
+        if (oldCategory==null){
+            throw new ApiException("Category not found ");
+        }
         postRepository.save(post);
     }
 

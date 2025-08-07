@@ -43,6 +43,7 @@ public class UserService {
     }
 
     public User getUserByEmail(String email){
+
         User oldUser = userRepository.findUserByEmail(email);
         if (oldUser == null){
             throw new ApiException("User not found");
@@ -51,12 +52,13 @@ public class UserService {
         return oldUser;
     }
 
-    public LocalDate getRegistrationDate(Integer userId) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) {
+    public User getRegistrationDate(Integer userId) {
+
+        User olduser = userRepository.findUserById(userId);
+        if (olduser == null) {
             throw new ApiException("User not found");
         }
-        return user.getRegistrationDate();
+        return olduser;
     }
 
     public List<User> getAllUsersBeforeDate(LocalDate date) {
